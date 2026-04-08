@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="Personal portfolio for a tech and innovation student building human-AI experiences."
+  >
+  <title>Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-glow page-glow-left" aria-hidden="true"></div>
+  <div class="page-glow page-glow-right" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container nav-shell">
+      <a class="brand" href="#hero" id="nav-brand">Portfolio</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section container section" id="hero">
+      <div class="hero-copy">
+        <p class="hero-name" id="hero-name"></p>
+        <p class="eyebrow" id="hero-role"></p>
+        <h1 id="hero-title"></h1>
+        <p class="hero-text" id="hero-intro"></p>
+        <div class="hero-actions">
+          <a class="button button-primary" id="hero-cta" href="#projects">View Projects</a>
+          <a class="button button-secondary" href="#contact">Let's Build Something</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <p class="panel-label">Current Focus</p>
+        <ul class="focus-list" id="hero-focus-list"></ul>
+      </aside>
+    </section>
+
+    <section class="container section" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">About</p>
+        <h2>Code for efficiency. Create for soul.</h2>
+      </div>
+      <div class="card prose-card">
+        <p id="about-text"></p>
+      </div>
+    </section>
+
+    <section class="container section" id="skills">
+      <div class="section-heading">
+        <p class="eyebrow">Skills</p>
+        <h2>Tools behind the systems.</h2>
+      </div>
+      <div class="skills-cloud card" id="skills-cloud"></div>
+    </section>
+
+    <section class="container section section-projects" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">Projects</p>
+        <h2>Systems with a real job to do.</h2>
+      </div>
+      <div class="projects-grid" id="projects-grid"></div>
+    </section>
+
+    <section class="container section" id="contact">
+      <div class="section-heading">
+        <p class="eyebrow">Contact</p>
+        <h2>Let's build something useful.</h2>
+      </div>
+      <div class="card contact-card">
+        <p id="contact-text"></p>
+        <a class="contact-email" id="contact-email" href="#"></a>
+        <div class="contact-links" id="contact-links"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <p id="footer-copy"></p>
+      <a href="#hero" class="back-to-top">Back to top</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
