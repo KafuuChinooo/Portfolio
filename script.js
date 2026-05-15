@@ -28,39 +28,93 @@ const portfolioContent = {
   ],
   projects: [
     {
-      title: "VirtuHire",
-      category: "VR & AI Engineering",
+      title: "HotelRoomAnalyze",
+      category: "Data Science & ML Dashboard",
       description:
-        "A VR interview simulator built with Unity, FastAPI, and SLM-based logic. The goal was to make interview practice feel less static and more like an actual conversation.",
+        "A hotel booking cancellation analysis project with a reproducible data pipeline, prediction model, and Streamlit dashboard for exploring booking risk.",
+      problem:
+        "Hotel booking data contains many operational signals, but raw tables make it hard to see cancellation patterns or estimate booking-level risk.",
+      solution:
+        "Cleaned and engineered booking features, trained a supervised cancellation model, and built a dashboard with KPI cards, interactive charts, AI explanations, and a prediction form.",
       impact:
-        "Takes interview prep out of the usual PDF-question-bank format and turns it into something interactive.",
-      stack: ["Unity", "C#", "FastAPI", "SLM", "Python"],
+        "Turns a public booking dataset into a portfolio-ready analytics product with model metrics and reviewable outputs.",
+      stack: ["Python", "Pandas", "Scikit-learn", "Streamlit", "Plotly"],
+      gallery: [],
+      links: [
+        {
+          label: "GitHub Repository",
+          url: "https://github.com/KafuuChinooo/HotelRoomAnalyze"
+        }
+      ]
+    },
+    {
+      title: "HealthcareVR",
+      category: "AI Simulation Backend",
+      description:
+        "A FastAPI backend for VR crisis-communication training, built around scenario configs, state changes, guardrails, replay analytics, and optional voice/LLM adapters.",
+      problem:
+        "Healthcare communication training needs controlled scenarios where learners can practice under pressure without unsafe claims or privacy violations.",
+      solution:
+        "Built a scenario-driven engine that analyzes learner replies, updates emotional and comprehension states, generates avatar behavior cues, and reviews each turn.",
+      impact:
+        "Shows backend architecture for a serious AI/VR training workflow, including deterministic tests and safety rules.",
+      stack: ["Python", "FastAPI", "Pytest", "Gemini", "Piper TTS", "Whisper"],
+      gallery: [],
+      links: [
+        {
+          label: "GitHub Repository",
+          url: "https://github.com/KafuuChinooo/HealthcareVR"
+        }
+      ]
+    },
+    {
+      title: "highschoolExamAnalysis",
+      category: "Education Data Analysis",
+      description:
+        "A Vietnamese high school exam score analysis project covering data cleaning, descriptive statistics, visualizations, admission-combination analysis, outliers, and clustering.",
+      problem:
+        "Large education datasets are difficult to interpret directly, especially when comparing subjects, provinces, score combinations, and unusual score patterns.",
+      solution:
+        "Processed over one million 2024 exam records, generated summary tables and figures, explored correlations, detected outliers, and tested clustering with KMeans and PCA.",
+      impact:
+        "Presents a complete local data story for Vietnam education data with reusable notebooks, tables, and charts.",
+      stack: ["Python", "Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn"],
+      gallery: [],
+      links: [
+        {
+          label: "GitHub Repository",
+          url: "https://github.com/KafuuChinooo/highschoolExamAnalysis"
+        }
+      ]
+    },
+    {
+      title: "InterviewSimulator",
+      category: "Unity VR & AI Application",
+      description:
+        "A VR and mobile interview simulator that connects Unity scenes with a FastAPI AI backend for speech recognition, interview dialogue, and voice responses.",
+      problem:
+        "Interview practice often feels passive and disconnected from real conversation, especially when users only read static question lists.",
+      solution:
+        "Built a Unity-based interview flow with language and job selection, recording, AI-generated responses, and audio playback through a local backend.",
+      impact:
+        "Makes interview practice more interactive by combining immersive UI, conversational AI, STT, and TTS in one prototype.",
+      stack: ["Unity", "C#", "Python", "FastAPI", "Gemini", "Whisper", "Piper TTS"],
+      gallery: [
+        {
+          src: "assets/projects/virtuhire/Poster1_A1 (1).png",
+          alt: "InterviewSimulator poster 1"
+        },
+        {
+          src: "assets/projects/virtuhire/Poster1_A1 (2).png",
+          alt: "InterviewSimulator poster 2"
+        }
+      ],
       links: [
         {
           label: "GitHub Repository",
           url: "https://github.com/KafuuChinooo/InterviewSimulator"
         }
       ]
-    },
-    {
-      title: "LifeOS Ecosystem",
-      category: "System Automation",
-      description:
-        "A personal system that ties together Telegram, Google Workspace, and Python scripts for tracking deadlines, logging expenses, and handling recurring tasks.",
-      impact:
-        "Cuts down on repeated admin work and keeps personal tracking in one place instead of scattered across apps.",
-      stack: ["Python", "Telegram API", "Google Sheets/Calendar API"],
-      links: []
-    },
-    {
-      title: "Behavioral Data Research",
-      category: "Data Science & Research",
-      description:
-        "A research project focused on behavioral data, local SLMs, and lightweight processing pipelines that can still run under limited compute.",
-      impact:
-        "Explores whether smaller models can still be useful when deployment constraints are part of the problem.",
-      stack: ["Python", "Data Visualization", "SLM", "Statistical Analysis"],
-      links: []
     }
   ],
   contact: {
@@ -156,8 +210,8 @@ setHtml(
   "projects-grid",
   portfolioContent.projects
     .map(
-      (project) => `
-        <article class="project-card">
+      (project, index) => `
+        <article class="project-card" role="button" tabindex="0" data-project-index="${index}" aria-label="Open details for ${project.title}">
           <div class="project-meta">${project.category}</div>
           <h3>${project.title}</h3>
           <p>${project.description}</p>
@@ -192,6 +246,120 @@ setHtml(
     )
     .join("")
 );
+
+const projectModal = document.getElementById("project-modal");
+const projectModalClose = document.getElementById("project-modal-close");
+const projectModalTitle = document.getElementById("project-modal-title");
+const projectModalCategory = document.getElementById("project-modal-category");
+const projectModalDescription = document.getElementById("project-modal-description");
+const projectModalProblem = document.getElementById("project-modal-problem");
+const projectModalSolution = document.getElementById("project-modal-solution");
+const projectModalImpact = document.getElementById("project-modal-impact");
+const projectModalStack = document.getElementById("project-modal-stack");
+const projectModalLinks = document.getElementById("project-modal-links");
+const projectModalMedia = document.getElementById("project-modal-media");
+const projectCards = document.querySelectorAll(".project-card");
+
+const renderProjectLinks = (links) => {
+  if (!links.length) {
+    return '<span class="project-link">WIP</span>';
+  }
+
+  return links
+    .map(
+      (link) => `
+        <a class="project-link" href="${link.url}" ${
+          link.url.startsWith("http") ? 'target="_blank" rel="noreferrer"' : ""
+        }>
+          ${link.label}
+        </a>
+      `
+    )
+    .join("");
+};
+
+const renderProjectGallery = (gallery, title) => {
+  if (!gallery?.length) {
+    return `
+      <div class="project-modal-placeholder">
+        <p>No project images yet</p>
+      </div>
+    `;
+  }
+
+  return gallery
+    .map(
+      (image) => `
+        <figure class="project-modal-image-card">
+          <img src="${image.src}" alt="${image.alt || title}">
+        </figure>
+      `
+    )
+    .join("");
+};
+
+const openProjectModal = (project) => {
+  if (!projectModal) {
+    return;
+  }
+
+  projectModalCategory.textContent = project.category;
+  projectModalTitle.textContent = project.title;
+  projectModalDescription.textContent = project.description;
+  projectModalProblem.textContent = project.problem || "Project context coming soon.";
+  projectModalSolution.textContent = project.solution || "Implementation details coming soon.";
+  projectModalImpact.textContent = project.impact;
+  projectModalStack.innerHTML = project.stack.map((item) => `<span>${item}</span>`).join("");
+  projectModalLinks.innerHTML = renderProjectLinks(project.links);
+  projectModalMedia.innerHTML = renderProjectGallery(project.gallery, project.title);
+  projectModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+};
+
+const closeProjectModal = () => {
+  if (!projectModal) {
+    return;
+  }
+
+  projectModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+};
+
+projectCards.forEach((card) => {
+  const projectIndex = Number(card.dataset.projectIndex);
+  const project = portfolioContent.projects[projectIndex];
+
+  card.addEventListener("click", () => {
+    openProjectModal(project);
+  });
+
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openProjectModal(project);
+    }
+  });
+});
+
+if (projectModal) {
+  projectModal.addEventListener("click", (event) => {
+    const target = event.target;
+
+    if (target instanceof HTMLElement && target.dataset.closeModal === "true") {
+      closeProjectModal();
+    }
+  });
+}
+
+if (projectModalClose) {
+  projectModalClose.addEventListener("click", closeProjectModal);
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && projectModal?.getAttribute("aria-hidden") === "false") {
+    closeProjectModal();
+  }
+});
 
 setHtml(
   "contact-links",
