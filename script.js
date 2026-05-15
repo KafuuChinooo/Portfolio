@@ -120,13 +120,13 @@ const portfolioContent = {
   contact: {
     text:
       "I'm looking for internship opportunities in AI, automation, or data-focused teams. If you're building something practical and need someone who likes implementation, feel free to reach out.",
-    email: "phananh2492005@gmail.com",
+    email: "contact.anhphancong@gmail.com",
     links: [
       { label: "GitHub", url: "https://github.com/KafuuChinooo/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/in/phanconganh/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/in/anhphancong/" },
       { label: "Facebook", url: "https://www.facebook.com/shuvikafuu/" },
       { label: "Instagram", url: "https://www.instagram.com/shuvikafuu/" },
-      { label: "Email", url: "mailto:phananh2492005@gmail.com" }
+      { label: "Email", url: "mailto:contact.anhphancong@gmail.com" }
     ]
   },
   footer: "(c) 2026 Phan Cong Anh (Kafuu). All rights reserved."
